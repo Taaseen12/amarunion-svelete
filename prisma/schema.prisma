@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:011201171@localhost:3306/amarunion"
+}
+
+model users {
+  name              String
+  number            String    @id
+  pressent_address  String
+  permanent_address String
+  nid               String    @unique
+  password          String
+  gender            String    @default("male")
+  bdate             String    @default("0000-00-00")
+  vataboi           vataboi[]
+  prof_pic String?
+  pass_strength String?
+  complaint complaintboi[]
+  nid_pic String?
+  vatamoney givevata[]
+}
+
+model vataboi {
+  vataid  String @id
+  user_id String @default("null")
+  pics String?
+  autism_type String?
+  autism_limit String?
+  mis_number String?
+  status String? @default("null")
+  users   users  @relation(fields: [user_id], references: [number], onDelete: Cascade)
+  type String?
+  vatas givevata[]
+}
+
+model givevata {
+  vid Int @id @default(autoincrement())
+  month String? 
+  money Int?
+  user_id String?
+  vata_id String? @default("null")
+  vatafk vataboi? @relation(fields:[vata_id], references: vataid, onDelete: Cascade )
+  user users? @relation(fields:[user_id], references: number, onDelete: Cascade)
+}
+
+model complaintboi {
+  complaintId String @id
+  user_id String @default("null")
+  pics String?
+  types String?
+  name String?
+  jela String?
+  address String?
+  number String?
+  extra String?
+  date String?
+  status String? @default("pending")
+  userfk users @relation(fields: [user_id], references: [number], onDelete: Cascade)
+}
+
+
